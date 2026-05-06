@@ -72,6 +72,26 @@ export function HomePage() {
           </p>
           <div className="mt-3 grid grid-cols-2 gap-2">
             <Link
+              to="/shelters"
+              className="card flex flex-col items-center justify-center py-4 text-center"
+            >
+              <span className="text-3xl" aria-hidden>
+                📍
+              </span>
+              <p className="mt-1 text-base-jp font-bold">避難所マップ</p>
+              <p className="text-xs-jp text-slate-700">8災害種別 / 地図</p>
+            </Link>
+            <Link
+              to="/stock"
+              className="card flex flex-col items-center justify-center py-4 text-center"
+            >
+              <span className="text-3xl" aria-hidden>
+                📦
+              </span>
+              <p className="mt-1 text-base-jp font-bold">備蓄管理</p>
+              <p className="text-xs-jp text-slate-700">40品目チェック</p>
+            </Link>
+            <Link
               to="/quests"
               className="card flex flex-col items-center justify-center py-4 text-center"
             >
@@ -89,7 +109,7 @@ export function HomePage() {
                 📖
               </span>
               <p className="mt-1 text-base-jp font-bold">防災手帳</p>
-              <p className="text-xs-jp text-slate-700">9記事 オフラインOK</p>
+              <p className="text-xs-jp text-slate-700">9記事 / オフライン</p>
             </Link>
           </div>
         </section>
@@ -237,6 +257,26 @@ export function HomePage() {
       </section>
 
       <section className="mt-5 grid grid-cols-2 gap-2">
+        <Link
+          to="/shelters"
+          className="card flex flex-col items-center justify-center py-4 text-center"
+        >
+          <span className="text-3xl" aria-hidden>
+            📍
+          </span>
+          <p className="mt-1 text-base-jp font-bold">避難所マップ</p>
+          <p className="text-xs-jp text-slate-700">8災害種別 / 現在地から</p>
+        </Link>
+        <Link
+          to="/stock"
+          className="card flex flex-col items-center justify-center py-4 text-center"
+        >
+          <span className="text-3xl" aria-hidden>
+            📦
+          </span>
+          <p className="mt-1 text-base-jp font-bold">備蓄管理</p>
+          <p className="text-xs-jp text-slate-700">40品目 / 賞味期限</p>
+        </Link>
         <Link
           to="/family"
           className="card flex flex-col items-center justify-center py-4 text-center"

@@ -16,6 +16,7 @@ import type {
   DiagnosisResult,
   FamilyCard,
   Quest,
+  StockCheckState,
 } from "@/types";
 import {
   defaultAppState,
@@ -49,6 +50,11 @@ type AppAction =
   | { type: "RESET_DIAGNOSIS" }
   | { type: "TOGGLE_QUEST"; questId: string }
   | { type: "UPDATE_FAMILY_CARD"; patch: Partial<FamilyCard> }
+  | {
+      type: "UPDATE_STOCK_CHECK";
+      itemId: string;
+      patch: Partial<StockCheckState>;
+    }
   | { type: "RESET_ALL" };
 
 function appReducer(state: AppState, action: AppAction): AppState {
@@ -108,6 +114,24 @@ function appReducer(state: AppState, action: AppAction): AppState {
           updatedAt: new Date().toISOString(),
         },
       };
+
+    case "UPDATE_STOCK_CHECK": {
+      const prev: StockCheckState = state.stockChecks[action.itemId] ?? {
+        state: "none",
+        updatedAt: new Date().toISOString(),
+      };
+      return {
+        ...state,
+        stockChecks: {
+          ...state.stockChecks,
+          [action.itemId]: {
+            ...prev,
+            ...action.patch,
+            updatedAt: new Date().toISOString(),
+          },
+        },
+      };
+    }
 
     case "RESET_ALL":
       return defaultAppState();
@@ -192,6 +216,7 @@ interface AppContextValue {
   toggleQuest: (questId: string) => void;
   isQuestCompleted: (questId: string) => boolean;
   updateFamilyCard: (patch: Partial<FamilyCard>) => void;
+  updateStockCheck: (itemId: string, patch: Partial<StockCheckState>) => void;
   resetAll: () => void;
   computeRecommendedQuests: () => Quest[];
   characterStateOf: (type: CharacterGrowthType) => {
@@ -242,6 +267,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
     dispatch({ type: "UPDATE_FAMILY_CARD", patch });
   }, []);
 
+  const updateStockCheck = useCallback(
+    (itemId: string, patch: Partial<StockCheckState>) => {
+      dispatch({ type: "UPDATE_STOCK_CHECK", itemId, patch });
+    },
+    [],
+  );
+
   const resetAll = useCallback(() => {
     resetState();
     dispatch({ type: "RESET_ALL" });
@@ -283,6 +315,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       toggleQuest,
       isQuestCompleted,
       updateFamilyCard,
+      updateStockCheck,
       resetAll,
       computeRecommendedQuests,
       characterStateOf,
@@ -295,6 +328,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       toggleQuest,
       isQuestCompleted,
       updateFamilyCard,
+      updateStockCheck,
       resetAll,
       computeRecommendedQuests,
       characterStateOf,

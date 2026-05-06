@@ -37,6 +37,7 @@ export function defaultAppState(): AppState {
     characters: defaultCharacterStates(),
     familyCard: { ...EMPTY_FAMILY_CARD },
     firstVisitAt: new Date().toISOString(),
+    stockChecks: {},
   };
 }
 
@@ -54,6 +55,7 @@ export function loadState(): AppState {
       completedQuestIds: parsed.completedQuestIds ?? [],
       characters: { ...base.characters, ...(parsed.characters ?? {}) },
       familyCard: { ...base.familyCard, ...(parsed.familyCard ?? {}) },
+      stockChecks: parsed.stockChecks ?? {},
     };
   } catch (err) {
     console.warn("storage load failed", err);

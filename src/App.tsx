@@ -26,6 +26,15 @@ const HandbookArticlePage = lazy(() =>
     default: m.HandbookArticlePage,
   })),
 );
+const SheltersPage = lazy(() =>
+  import("@/pages/Shelters").then((m) => ({ default: m.SheltersPage })),
+);
+const StockPage = lazy(() =>
+  import("@/pages/Stock").then((m) => ({ default: m.StockPage })),
+);
+const MorePage = lazy(() =>
+  import("@/pages/More").then((m) => ({ default: m.MorePage })),
+);
 
 function RouteFallback() {
   return (
@@ -53,6 +62,9 @@ export default function App() {
             <Route path="/family" element={<FamilyCardPage />} />
             <Route path="/handbook" element={<HandbookPage />} />
             <Route path="/handbook/:slug" element={<HandbookArticlePage />} />
+            <Route path="/shelters" element={<SheltersPage />} />
+            <Route path="/stock" element={<StockPage />} />
+            <Route path="/more" element={<MorePage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>

@@ -103,4 +103,65 @@ export interface AppState {
   characters: Record<CharacterGrowthType, CharacterState>;
   familyCard: FamilyCard;
   firstVisitAt: string;
+  stockChecks: Record<string, StockCheckState>;
+}
+
+// =============================================================
+// 避難所（カモガモ防災APPの「避難所」機能を吸収）
+// =============================================================
+
+export type DisasterType =
+  | "earthquake" // 地震
+  | "flood" // 水害・洪水
+  | "tsunami" // 津波
+  | "typhoon" // 台風
+  | "landslide" // 土砂災害
+  | "fire" // 大規模火災
+  | "inland-flood" // 内水氾濫
+  | "high-tide"; // 高潮
+
+export interface Shelter {
+  id: string;
+  name: string;
+  address: string;
+  lat: number;
+  lng: number;
+  /** どの災害に対応している指定避難所か */
+  supports: DisasterType[];
+  /** 屋外/屋内/兼用 */
+  category: "指定避難所" | "指定緊急避難場所" | "福祉避難所" | "広域避難場所";
+  /** 任意のメモ（収容人数、車椅子対応など） */
+  notes?: string;
+}
+
+// =============================================================
+// 備蓄管理（カモガモ防災APPの「備蓄」機能を吸収）
+// =============================================================
+
+export type StockCategory =
+  | "水・飲料"
+  | "食料"
+  | "医療・衛生"
+  | "電源・情報"
+  | "防寒・衣類"
+  | "トイレ・生活";
+
+export interface StockItem {
+  id: string;
+  name: string;
+  category: StockCategory;
+  /** 1人あたりの推奨数（×家族人数で計算） */
+  perPersonPerDay?: number;
+  /** 推奨日数（基本3日、ペット等で5日、可能なら7日） */
+  recommendedDays: 3 | 5 | 7;
+  hint?: string;
+}
+
+export type StockState = "have" | "partial" | "none";
+
+export interface StockCheckState {
+  state: StockState;
+  expiryDate?: string; // YYYY-MM-DD
+  note?: string;
+  updatedAt: string;
 }

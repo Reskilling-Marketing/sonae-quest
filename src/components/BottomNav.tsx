@@ -2,10 +2,10 @@ import { NavLink } from "react-router-dom";
 
 const NAV_ITEMS = [
   { to: "/", label: "ホーム", emoji: "🏠" },
+  { to: "/shelters", label: "避難所", emoji: "📍" },
   { to: "/quests", label: "クエスト", emoji: "🗺️" },
-  { to: "/characters", label: "なかま", emoji: "🐰" },
-  { to: "/family", label: "家族カード", emoji: "👨‍👩‍👧" },
-  { to: "/handbook", label: "手帳", emoji: "📖" },
+  { to: "/stock", label: "備蓄", emoji: "📦" },
+  { to: "/more", label: "もっと", emoji: "☰" },
 ];
 
 export function BottomNav() {
