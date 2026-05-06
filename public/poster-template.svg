@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 595 842" width="595" height="842">
+  <!--
+    そなえクエスト マルシェ用 A4 縦ポスターテンプレ
+    - 595x842 (A4 縦, 72dpi 換算)
+    - QR コード位置に "QR" のプレースホルダ → scripts/gen-qr.sh で生成した qr.svg を貼る
+    - 印刷時は 300dpi 以上推奨
+  -->
+  <defs>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f766e" />
+      <stop offset="100%" stop-color="#115e59" />
+    </linearGradient>
+  </defs>
+
+  <rect width="595" height="842" fill="#fef9f2" />
+
+  <!-- ヒーローブロック -->
+  <rect x="40" y="40" width="515" height="380" rx="32" fill="url(#hero)" />
+  <text x="80" y="120" font-family="-apple-system, 'Hiragino Sans', sans-serif"
+    font-size="20" font-weight="700" fill="#fef9f2" opacity="0.9">家族みんなで・5分で</text>
+  <text x="80" y="200" font-family="-apple-system, 'Hiragino Sans', sans-serif"
+    font-size="58" font-weight="900" fill="#fef9f2">わが家の</text>
+  <text x="80" y="270" font-family="-apple-system, 'Hiragino Sans', sans-serif"
+    font-size="58" font-weight="900" fill="#fef9f2">防災力が</text>
+  <text x="80" y="340" font-family="-apple-system, 'Hiragino Sans', sans-serif"
+    font-size="58" font-weight="900" fill="#fef9f2">わかります。</text>
+  <text x="80" y="385" font-family="-apple-system, 'Hiragino Sans', sans-serif"
+    font-size="18" font-weight="500" fill="#fef9f2" opacity="0.9">12問の選択式 / 30の防災クエスト / 維持費0円のPWA</text>
+
+  <!-- 盾アイコン -->
+  <text x="490" y="280" text-anchor="middle" font-size="180">🛡️</text>
+
+  <!-- QR セクション -->
+  <text x="297" y="490" text-anchor="middle"
+    font-family="-apple-system, 'Hiragino Sans', sans-serif"
+    font-size="22" font-weight="700" fill="#1f2937">📱 スマホで QR を読み取り</text>
+
+  <rect x="197" y="510" width="200" height="200" rx="16" fill="#ffffff" stroke="#0f766e" stroke-width="3" stroke-dasharray="6 4" />
+  <text x="297" y="600" text-anchor="middle"
+    font-family="-apple-system, 'Hiragino Sans', sans-serif"
+    font-size="18" font-weight="500" fill="#94a3b8">↓ ここに qr.svg を</text>
+  <text x="297" y="625" text-anchor="middle"
+    font-family="-apple-system, 'Hiragino Sans', sans-serif"
+    font-size="18" font-weight="500" fill="#94a3b8">差し込んでください</text>
+  <text x="297" y="660" text-anchor="middle"
+    font-family="-apple-system, 'Hiragino Sans', sans-serif"
+    font-size="13" fill="#94a3b8">scripts/gen-qr.sh で生成</text>
+
+  <!-- 3つの特徴 -->
+  <text x="297" y="755" text-anchor="middle"
+    font-family="-apple-system, 'Hiragino Sans', sans-serif"
+    font-size="14" font-weight="700" fill="#0f766e">
+    ✅ 怖がらせず、家族で行動が増える　　✅ 5分の診断で今週の3アクション　　✅ 5体のなかまが育つ
+  </text>
+
+  <!-- フッター -->
+  <text x="297" y="800" text-anchor="middle"
+    font-family="-apple-system, 'Hiragino Sans', sans-serif"
+    font-size="12" font-weight="500" fill="#64748b">
+    🛡️ そなえクエスト | by 株式会社リスキリング・マーケティング | プライバシー: 端末内保存・サーバー送信ゼロ
+  </text>
+</svg>

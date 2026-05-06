@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f766e" />
+      <stop offset="100%" stop-color="#115e59" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <g font-family="-apple-system, 'Hiragino Sans', 'Noto Sans JP', sans-serif" fill="#fef9f2">
+    <text x="80" y="160" font-size="36" font-weight="700" opacity="0.9">そなえクエスト</text>
+    <text x="80" y="280" font-size="78" font-weight="900">5分で、</text>
+    <text x="80" y="380" font-size="78" font-weight="900">わが家の防災力が</text>
+    <text x="80" y="480" font-size="78" font-weight="900">わかります。</text>
+    <text x="80" y="565" font-size="32" font-weight="500" opacity="0.85">家族で今週やる3つも見える PWA / 維持費0円 / 端末内保存</text>
+  </g>
+  <g transform="translate(960 250)">
+    <text font-size="280" text-anchor="middle">🛡️</text>
+  </g>
+</svg>

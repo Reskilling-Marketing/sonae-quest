@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-sonae-ground text-sonae-ink antialiased;
+    font-feature-settings: "palt";
+    min-height: 100dvh;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-4 ring-sonae-primary ring-offset-2 ring-offset-sonae-ground;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-sonae-primary px-6 py-3 text-base-jp font-bold text-white shadow-soft transition active:scale-[0.98] disabled:opacity-50;
+    min-height: 48px;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-2 border-sonae-primary bg-white px-6 py-3 text-base-jp font-bold text-sonae-primary transition active:scale-[0.98];
+    min-height: 48px;
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-sonae-accent px-6 py-3 text-base-jp font-bold text-white shadow-soft transition active:scale-[0.98];
+    min-height: 48px;
+  }
+
+  .card {
+    @apply rounded-card bg-white p-5 shadow-soft;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full bg-teal-50 px-3 py-1 text-xs-jp font-bold text-sonae-primary;
+  }
+
+  .chip-warn {
+    @apply inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs-jp font-bold text-amber-700;
+  }
+}
+
+.safe-area-bottom {
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+}
+.safe-area-top {
+  padding-top: calc(0.5rem + env(safe-area-inset-top, 0px));
+}
+
+/* 印刷時：家族カードを A4 紙でも読みやすく */
+@media print {
+  body {
+    background: #ffffff;
+  }
+  header,
+  nav,
+  .btn-primary,
+  .btn-secondary,
+  .btn-accent,
+  button {
+    display: none !important;
+  }
+  .card {
+    box-shadow: none;
+    border: 1px solid #cbd5e1;
+    page-break-inside: avoid;
+  }
+  textarea,
+  input {
+    border: 1px solid #94a3b8 !important;
+    background: #ffffff !important;
+  }
+  main {
+    padding-bottom: 0 !important;
+  }
+}
+
+/* クエスト完了時の「+EXP」フィードバック */
+@keyframes fadeup {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.95);
+  }
+}
+
+/* システム設定で「動きを減らす」を選んでいる人向け */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
