@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>そなえクエスト | ページを開いています…</title>
+    <meta name="theme-color" content="#0f766e" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+        background: #fef9f2;
+        color: #1f2937;
+      }
+      .wrap {
+        min-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        text-align: center;
+      }
+      .card {
+        background: #fff;
+        padding: 32px 24px;
+        border-radius: 20px;
+        box-shadow: 0 6px 20px -8px rgba(15, 118, 110, 0.25);
+        max-width: 360px;
+      }
+      h1 {
+        color: #0f766e;
+        font-size: 1.5rem;
+        margin: 0 0 12px;
+      }
+      a {
+        display: inline-block;
+        margin-top: 16px;
+        padding: 14px 28px;
+        background: #0f766e;
+        color: #fff;
+        border-radius: 9999px;
+        text-decoration: none;
+        font-weight: 700;
+      }
+    </style>
+    <script>
+      // GH Pages サブパスでの SPA フォールバック：
+      // /sonae-quest/foo にリロード時、/#/foo に書き換えてアプリへ誘導
+      (function () {
+        var path = window.location.pathname;
+        var parts = path.split("/").filter(Boolean);
+        // 先頭をリポジトリ名とみなしてスキップ
+        var rest = parts.slice(1).join("/");
+        if (rest) {
+          window.location.replace(
+            "/" +
+              parts[0] +
+              "/#/" +
+              rest +
+              window.location.search +
+              window.location.hash.replace(/^#/, ""),
+          );
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1>🛡️ そなえクエスト</h1>
+        <p>
+          ページを開いています…<br />数秒待っても表示されない場合は、ホームへ戻ってください。
+        </p>
+        <a href="./">ホームへもどる</a>
+      </div>
+    </div>
+  </body>
+</html>
