@@ -107,6 +107,32 @@
   }
 }
 
+/* 文字サイズ切替 (preferences.ts と連動) */
+body.sq-fs-large {
+  font-size: 1.08em;
+}
+body.sq-fs-xlarge {
+  font-size: 1.18em;
+}
+
+/* SOS / 緊急時の超目立つボタン */
+.btn-sos {
+  @apply flex w-full items-center justify-center gap-3 rounded-card px-6 py-5 text-xl-jp font-black text-white shadow-soft transition active:scale-[0.98];
+  min-height: 72px;
+}
+
+.flashlight-overlay {
+  position: fixed;
+  inset: 0;
+  background: white;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
 /* システム設定で「動きを減らす」を選んでいる人向け */
 @media (prefers-reduced-motion: reduce) {
   *,

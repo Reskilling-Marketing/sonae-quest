@@ -12,6 +12,19 @@ dist-ssr/
 .env
 .env.*
 !.env.example
+.dev.vars
+.dev.vars.*
+
+# local auth/tooling state
+.mcp.json
+*-admin-key*
+*credentials*
+
+# local databases / dumps
+*.sqlite
+*.sqlite3
+*.db
+*.dump
 
 # editor
 .vscode/*

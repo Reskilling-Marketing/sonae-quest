@@ -7,6 +7,103 @@
 
 ### Phase 2 候補（[knowledge/sonae-quest-phase2-backlog-v1.md](../knowledge/sonae-quest-phase2-backlog-v1.md) 参照）
 
+---
+
+## [0.3.0] - 2026-05-08
+
+### Added — ゼロコスト「世界最高の防災アプリ」化
+
+- 🆘 **緊急アクション画面 (Emergency)**
+  - 119 / 110 / 171 / 118 / 189 への直通ボタン（tel: スキーム、クライアント完結）
+  - 災害用伝言ダイヤル・Web 171 への一発リンク
+  - 画面ライト（白画面オーバーレイ＋Wake Lock 取得で電池保護）
+  - サイレン（Web Audio API でローカル生成、800/400Hz 交互、30秒で自動停止）
+  - 現在地を家族カードのメモに自動追記（Geolocation API）
+  - 公式情報源リンク集（気象庁/内閣府/消防庁/国民保護ポータル/ハザードマップ/大阪府市/環境省ペット/厚労省医療）4カテゴリ12件
+- 📄 **PDF レポート生成 (More)**
+  - jsPDF 動的import（PDF 出力時のみロード、初期JSは増えない）
+  - A4 1枚に防災レベル/クエスト進捗/家族カード/備蓄カバー率を出力
+  - 日本語完全表示は `window.print()` 経由（既存の印刷スタイル流用）
+- 🔠 **アクセシビリティ (More + Handbook)**
+  - 文字サイズ3段階切替（ふつう / おおきい / もっと大）→ LocalStorage 永続化、起動時即適用
+  - 防災手帳記事の音声読み上げ（Web Speech API 無料・無認証）
+
+### Changed
+
+- ホームに最上段「🚨 緊急時はここ」赤ボタン（初回・2回目両方）
+- More に PDF/印刷/文字サイズUIを統合
+- HandbookArticle に読み上げボタン追加
+
+### Bundle
+
+- 初期JS: gzip **64.21KB**（+0.5KB、Home に SOS ボタン追加分のみ）
+- jspdf: 動的import（`Save PDF` クリック時のみロード）
+- Emergency: gzip 約3KB（独立ルート）
+
+### Privacy / 0円維持
+
+- 連絡先・情報源すべて公式公開ページへの直接リンク（中継サーバーなし）
+- PDF生成・読み上げ・サイレン・画面ライト すべてクライアント完結
+- 維持費0円・LocalStorage完結を堅持
+
+### Security
+
+- Wake Lock API は Permission 不要（ユーザージェスチャー必須なので OK）
+- AudioContext は user gesture で起動（自動再生ブロック準拠）
+- speechSynthesis のキャンセルを画面遷移時に実装（音声残留防止）
+
+---
+
+## [0.2.0] - 2026-05-07
+
+### Added — カモガモ防災APP の主要機能をマージ
+
+- **避難所検索画面 (Shelters)**
+  - Leaflet + OpenStreetMap タイル（無料・商用OK）
+  - 8災害種別タブ（地震/水害/津波/台風/土砂/火災/内水氾濫/高潮）
+  - Geolocation API で現在地から探す
+  - 大阪市中心部サンプル30件（CC-BY 相当の公開データから厳選）
+  - ハバーシン公式で距離計算 → 近い順表示
+  - オフライン全国概略マップ SVG（PWA precache）
+- **備蓄管理画面 (Stock)**
+  - 6カテゴリ40品目テンプレ（水/食料/医療/電源/防寒/トイレ）
+  - 家族人数 × 推奨日数 で必要数を自動計算
+  - 各品目に「ある/少しある/ない」3状態 + 賞味期限入力
+  - 30日以内の賞味期限切迫アラート
+  - カバー率の可視化（プログレスバー）
+- **もっと画面 (More)**
+  - 既存機能のハブ（診断/なかま/家族カード/手帳）
+  - ショップリンク集（Amazon/楽天/コーナン/ハンズ）
+  - 設定 / プライバシー / データ削除
+  - About（カモガモ防災APP へのクレジット明記）
+
+### Changed
+
+- BottomNav 5タブに再編：ホーム / 避難所 / クエスト / 備蓄 / もっと
+- Home に避難所マップ・備蓄管理のショートカット追加（初回・2回目両方）
+- AppState: `stockChecks: Record<string, StockCheckState>` を追加
+- Reducer: `UPDATE_STOCK_CHECK` action 追加
+- storage: stockChecks の load/save 統合
+
+### Bundle
+
+- 初期JS: gzip **65.76KB**（+0.5KB）
+- MapView (Leaflet): gzip **44.23KB**（避難所開いた時のみ動的ロード）
+- Stock: gzip 4.78KB / Shelters: gzip 4.65KB / More: gzip 2.18KB
+
+### Privacy
+
+- 維持費0円維持（独自BE/DB/有料API/位置情報サーバー送信 すべて不採用）
+- 地図タイルは OpenStreetMap（無料・商用OK・Attribution 表示済）
+- 不足物資登録機能はバックエンド必須のため取り込まず（ADR 残置）
+
+### Inspired by
+
+- カモガモ防災APP（カルガモマスコットの防災Webアプリ） — 避難所検索／備蓄管理／オフライン概略マップの構成を参考
+
+
+### Phase 2 候補（[knowledge/sonae-quest-phase2-backlog-v1.md](../knowledge/sonae-quest-phase2-backlog-v1.md) 参照）
+
 - Context state を `useReducer` 化（CTO P1#1）
 - iOS PNG icon 192/512 同梱（CTO P1#3）
 - 子モード（ふりがな・親に見せる/自分でやる切替）（UX P1#5）

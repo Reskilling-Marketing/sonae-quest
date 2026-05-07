@@ -44,6 +44,16 @@ export function HomePage() {
   if (isFirstTime) {
     return (
       <Layout>
+        <Link
+          to="/emergency"
+          className="btn-sos mt-2 bg-rose-600"
+          aria-label="緊急時はここをタップ"
+        >
+          <span className="text-2xl" aria-hidden>
+            🚨
+          </span>
+          <span>緊急時はここ</span>
+        </Link>
         <section className="card mt-2 bg-gradient-to-br from-sonae-primary to-teal-700 text-white">
           <div className="flex items-center justify-between gap-3">
             <div className="flex-1">
@@ -143,7 +153,17 @@ export function HomePage() {
 
   return (
     <Layout>
-      <section className="card mt-2 bg-gradient-to-br from-sonae-primary to-teal-700 text-white">
+      <Link
+        to="/emergency"
+        className="btn-sos mt-2 bg-rose-600"
+        aria-label="緊急時はここをタップ"
+      >
+        <span className="text-2xl" aria-hidden>
+          🚨
+        </span>
+        <span>緊急時はここ</span>
+      </Link>
+      <section className="card mt-3 bg-gradient-to-br from-sonae-primary to-teal-700 text-white">
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="text-xs-jp font-bold opacity-90">今日のひとこと</p>

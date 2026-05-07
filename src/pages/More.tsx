@@ -1,6 +1,15 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { useApp } from "@/hooks/useApp";
+import { downloadFamilyPDF } from "@/lib/pdf";
+import {
+  applyFontScale,
+  isSpeechSupported,
+  loadPrefs,
+  savePrefs,
+  type FontScale,
+} from "@/lib/preferences";
 
 interface MoreItem {
   to: string;
@@ -59,8 +68,43 @@ const SHOPS: { name: string; url: string; tag: string }[] = [
   },
 ];
 
+const FONT_SCALES: { value: FontScale; label: string; sample: string }[] = [
+  { value: "normal", label: "ふつう", sample: "あ" },
+  { value: "large", label: "おおきい", sample: "あ" },
+  { value: "xlarge", label: "もっと大", sample: "あ" },
+];
+
 export function MorePage() {
   const { state, resetAll } = useApp();
+  const [fontScale, setFontScale] = useState<FontScale>(
+    () => loadPrefs().fontScale,
+  );
+  const [pdfMsg, setPdfMsg] = useState<string>("");
+
+  useEffect(() => {
+    applyFontScale(fontScale);
+    savePrefs({ fontScale });
+  }, [fontScale]);
+
+  const handlePDF = () => {
+    try {
+      const familySize =
+        Number(
+          typeof window !== "undefined"
+            ? window.localStorage.getItem("sq-family-size")
+            : null,
+        ) || 4;
+      downloadFamilyPDF({ state, familySize });
+      setPdfMsg("✅ PDF をダウンロードしました");
+    } catch (err) {
+      setPdfMsg(`❌ 生成に失敗: ${(err as Error).message}`);
+    }
+    window.setTimeout(() => setPdfMsg(""), 4000);
+  };
+
+  const handlePrint = () => {
+    if (typeof window !== "undefined") window.print();
+  };
 
   const handleReset = () => {
     if (typeof window === "undefined") return;
@@ -134,6 +178,82 @@ export function MorePage() {
       </section>
 
       <section className="mt-6">
+        <h2 className="mb-2 text-lg-jp font-bold">
+          📄 わが家の防災カードを書き出す
+        </h2>
+        <div className="card">
+          <p className="text-sm leading-relaxed text-slate-700">
+            診断結果・クエスト進捗・家族カード・備蓄カバー率を{" "}
+            <strong>1枚の PDF</strong> に書き出して、家族会議で共有できます。
+            日本語のフル表示は「印刷」を使うと画面そのままが綺麗に出ます。
+          </p>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <button type="button" onClick={handlePDF} className="btn-primary">
+              📄 PDFを保存
+            </button>
+            <button
+              type="button"
+              onClick={handlePrint}
+              className="btn-secondary"
+            >
+              🖨 画面を印刷
+            </button>
+          </div>
+          {pdfMsg && (
+            <p
+              role="status"
+              aria-live="polite"
+              className="mt-2 text-center text-sm font-bold text-sonae-primary"
+            >
+              {pdfMsg}
+            </p>
+          )}
+        </div>
+      </section>
+
+      <section className="mt-6">
+        <h2 className="mb-2 text-lg-jp font-bold">🔠 文字サイズ</h2>
+        <div className="card">
+          <p className="mb-2 text-xs-jp text-slate-700">
+            高齢の家族や屋外でも読みやすい大きさに切り替えます。
+            {!isSpeechSupported() &&
+              "（読み上げは現在のブラウザでは利用できません）"}
+          </p>
+          <div className="grid grid-cols-3 gap-2">
+            {FONT_SCALES.map((opt) => {
+              const active = opt.value === fontScale;
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setFontScale(opt.value)}
+                  aria-pressed={active}
+                  className={`rounded-xl border-2 px-3 py-3 font-bold transition ${
+                    active
+                      ? "border-sonae-primary bg-teal-50 text-sonae-primary"
+                      : "border-slate-200 bg-white text-slate-700"
+                  }`}
+                >
+                  <span
+                    className={
+                      opt.value === "normal"
+                        ? "text-base"
+                        : opt.value === "large"
+                          ? "text-lg"
+                          : "text-xl"
+                    }
+                  >
+                    {opt.sample}
+                  </span>
+                  <span className="block text-xs-jp">{opt.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="mt-6">
         <h2 className="mb-2 text-lg-jp font-bold">⚙️ 設定 / プライバシー</h2>
         <div className="card space-y-3">
           <div>
@@ -192,6 +312,18 @@ export function MorePage() {
           </a>
         </div>
       </section>
+
+      <p className="mt-6 text-center text-xs-jp text-slate-500">
+        🛡️ そなえクエスト · build{" "}
+        <code className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-slate-700">
+          {__BUILD_COMMIT__}
+        </code>{" "}
+        ·{" "}
+        {new Date(__BUILD_TIME__).toLocaleString("ja-JP", {
+          dateStyle: "short",
+          timeStyle: "short",
+        })}
+      </p>
     </Layout>
   );
 }

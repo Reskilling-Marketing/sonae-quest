@@ -115,58 +115,28 @@ npm run dev          # http://localhost:5173 (デフォルト)
 npm run build        # dist/ に静的ファイル生成
 npm run preview      # 本番ビルドをローカル確認
 npm run lint         # tsc --noEmit (型チェックのみ)
+npm run preflight    # デプロイ前6項目品質ゲート
+npm run deploy       # 1コマンドで GH Pages へ更新
+npm run qr <URL>     # QR コードSVG を public/qr.svg に生成
 ```
 
 ---
 
-## 🚀 無料デプロイ手順
-
-> 3社いずれも **0円** で運用できます。
-
-### A) GitHub Pages（最も無料・最も簡単）
-
-1. このフォルダを GitHub に push（リポジトリ名: 例 `sonae-quest`）
-2. `vite.config.ts` の `base` は既に `'./'` 相対パスなので、サブパスでも動作OK
-3. リポジトリ Settings → Pages → Source: `GitHub Actions` を選択
-4. `.github/workflows/deploy.yml` を以下で作成（コミット・push）
-
-```yaml
-name: Deploy to Pages
-on:
-  push: { branches: [main] }
-permissions: { contents: read, pages: write, id-token: write }
-jobs:
-  build-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: 'npm' }
-      - run: npm ci
-      - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
-        with: { path: dist }
-      - uses: actions/deploy-pages@v4
-```
-
-完了後、`https://<ユーザー名>.github.io/sonae-quest/` で公開されます。
-
-### B) Cloudflare Pages（CDN 速い）
-
-1. Cloudflare ダッシュボード → Pages → Create → Connect to Git
-2. Build command: `npm run build` / Output directory: `dist`
-3. Node version: `20`
-4. Save and Deploy → 数分で `https://<project>.pages.dev/`
-
-### C) Vercel（npm エコシステム最適）
+## 🚀 デプロイ — `npm run deploy` 一発
 
 ```bash
-npm i -g vercel
-vercel              # 初回はプロジェクト作成
-vercel --prod       # 本番デプロイ
+cd sonae-quest
+npm run deploy
 ```
 
-ビルド設定は自動検出。`Output Directory` を `dist` にするだけ。
+これだけで以下を全部やります（fail-fast）：
+1. **Pre-flight** — TypeScript / build / PWA 成果物 / サイズ予算 / トラッキング漏洩 / シークレット混入
+2. **main 同期** — 差分があれば commit & push
+3. **gh-pages 更新** — worktree で取り出し → dist 入れ替え → push
+4. **公開URL検証** — HTTP 200 + 最新 chunk が配信されているか確認
+5. **handoff/LOG 追記** — デプロイイベントを自動記録
+
+詳細・初回公開・他ホスト切替・トラブルシュートは [DEPLOY.md](DEPLOY.md) を参照。
 
 ---
 

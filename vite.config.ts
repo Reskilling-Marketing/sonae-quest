@@ -2,11 +2,26 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import path from "node:path";
+import { execSync } from "node:child_process";
+
+// ビルドメタ（画面フッターに出してトラブルシュート性向上）
+const COMMIT_SHA = (() => {
+  try {
+    return execSync("git rev-parse --short HEAD", { encoding: "utf8" }).trim();
+  } catch {
+    return "dev";
+  }
+})();
+const BUILD_TIME = new Date().toISOString();
 
 export default defineConfig({
   // GH Pages サブパス時は BASE_PATH=/sonae-quest/ を渡す。
   // 既定は相対パス（Vercel/Cloudflare/zip配布/Pagesルートでも動作）
   base: process.env.BASE_PATH ?? "./",
+  define: {
+    __BUILD_COMMIT__: JSON.stringify(COMMIT_SHA),
+    __BUILD_TIME__: JSON.stringify(BUILD_TIME),
+  },
   plugins: [
     react(),
     VitePWA({

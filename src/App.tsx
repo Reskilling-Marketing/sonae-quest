@@ -35,6 +35,9 @@ const StockPage = lazy(() =>
 const MorePage = lazy(() =>
   import("@/pages/More").then((m) => ({ default: m.MorePage })),
 );
+const EmergencyPage = lazy(() =>
+  import("@/pages/Emergency").then((m) => ({ default: m.EmergencyPage })),
+);
 
 function RouteFallback() {
   return (
@@ -65,6 +68,7 @@ export default function App() {
             <Route path="/shelters" element={<SheltersPage />} />
             <Route path="/stock" element={<StockPage />} />
             <Route path="/more" element={<MorePage />} />
+            <Route path="/emergency" element={<EmergencyPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>

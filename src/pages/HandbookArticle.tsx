@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { ShareButton } from "@/components/ShareButton";
 import { HANDBOOK } from "@/data/handbook";
+import { isSpeechSupported, speak, stopSpeaking } from "@/lib/preferences";
 
 export function HandbookArticlePage() {
   const { slug } = useParams<{ slug: string }>();
   const article = HANDBOOK.find((a) => a.slug === slug);
+  const [reading, setReading] = useState(false);
 
   if (!article) {
     return (
@@ -22,6 +25,27 @@ export function HandbookArticlePage() {
 
   const shareText = `【そなえクエスト 防災手帳】\n${article.emoji} ${article.title}\n${article.summary}`;
 
+  const handleSpeak = () => {
+    if (reading) {
+      stopSpeaking();
+      setReading(false);
+      return;
+    }
+    const fullText = [
+      article.title,
+      article.summary,
+      ...article.body.flatMap((s) => [s.heading, ...s.lines]),
+    ].join("。");
+    if (speak(fullText, { lang: "ja-JP" })) setReading(true);
+    // 読み上げ終了をポーリングで検知（onend は安定しないブラウザがある）
+    const id = window.setInterval(() => {
+      if (typeof window !== "undefined" && !window.speechSynthesis.speaking) {
+        setReading(false);
+        window.clearInterval(id);
+      }
+    }, 600);
+  };
+
   return (
     <Layout title={article.title} back="/handbook">
       <header className="mt-2">
@@ -35,6 +59,17 @@ export function HandbookArticlePage() {
           {article.summary}
         </p>
       </header>
+
+      {isSpeechSupported() && (
+        <button
+          type="button"
+          onClick={handleSpeak}
+          aria-pressed={reading}
+          className={`btn-secondary mt-3 w-full ${reading ? "border-rose-400 text-rose-700" : ""}`}
+        >
+          {reading ? "🔇 読み上げを止める" : "🔊 記事を読み上げる"}
+        </button>
+      )}
 
       <article className="mt-5 space-y-5">
         {article.body.map((section, idx) => (
