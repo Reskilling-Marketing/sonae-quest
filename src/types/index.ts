@@ -104,6 +104,17 @@ export interface AppState {
   familyCard: FamilyCard;
   firstVisitAt: string;
   stockChecks: Record<string, StockCheckState>;
+  /** Pro キットへの興味表明（個人情報なし、LocalStorageのみ） */
+  proInterests: Record<string, ProInterest>;
+}
+
+export interface ProInterest {
+  /** Pro キット ID */
+  kitId: string;
+  /** 興味表明した時刻 */
+  expressedAt: string;
+  /** 早期登録希望か */
+  earlyBird: boolean;
 }
 
 // =============================================================

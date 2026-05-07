@@ -333,6 +333,26 @@ export function HomePage() {
           {QUESTS.length}
         </p>
       </section>
+
+      <Link
+        to="/pro"
+        className="card mt-4 flex items-center gap-3 border-2 border-amber-300/60 bg-amber-50/70 transition active:scale-[0.99]"
+      >
+        <span className="text-3xl" aria-hidden>
+          🌟
+        </span>
+        <div className="flex-1">
+          <p className="text-base-jp font-bold text-amber-900">
+            もう一段、深く備える
+          </p>
+          <p className="text-xs-jp text-amber-800">
+            AI 防災コーチ＋業種別キット（個人 ¥980〜）— 基本機能はずっと無料
+          </p>
+        </div>
+        <span aria-hidden className="text-amber-700">
+          →
+        </span>
+      </Link>
     </Layout>
   );
 }

@@ -20,6 +20,18 @@ interface MoreItem {
 
 const ITEMS: MoreItem[] = [
   {
+    to: "/pro",
+    emoji: "🌟",
+    title: "Pro 防災キット",
+    desc: "AI 防災コーチ + 業種別キット（個人 ¥980〜 / 永久無料は永久無料）",
+  },
+  {
+    to: "/emergency",
+    emoji: "🆘",
+    title: "緊急時はここ",
+    desc: "119/110/171 直通 + 画面ライト + サイレン + 公式情報源",
+  },
+  {
     to: "/diagnosis",
     emoji: "🛡️",
     title: "防災力診断",

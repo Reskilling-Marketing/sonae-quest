@@ -55,6 +55,7 @@ type AppAction =
       itemId: string;
       patch: Partial<StockCheckState>;
     }
+  | { type: "TOGGLE_PRO_INTEREST"; kitId: string; earlyBird: boolean }
   | { type: "RESET_ALL" };
 
 function appReducer(state: AppState, action: AppAction): AppState {
@@ -131,6 +132,21 @@ function appReducer(state: AppState, action: AppAction): AppState {
           },
         },
       };
+    }
+
+    case "TOGGLE_PRO_INTEREST": {
+      const next = { ...state.proInterests };
+      if (next[action.kitId]) {
+        // 取り消し
+        delete next[action.kitId];
+      } else {
+        next[action.kitId] = {
+          kitId: action.kitId,
+          expressedAt: new Date().toISOString(),
+          earlyBird: action.earlyBird,
+        };
+      }
+      return { ...state, proInterests: next };
     }
 
     case "RESET_ALL":
@@ -217,6 +233,7 @@ interface AppContextValue {
   isQuestCompleted: (questId: string) => boolean;
   updateFamilyCard: (patch: Partial<FamilyCard>) => void;
   updateStockCheck: (itemId: string, patch: Partial<StockCheckState>) => void;
+  toggleProInterest: (kitId: string, earlyBird?: boolean) => void;
   resetAll: () => void;
   computeRecommendedQuests: () => Quest[];
   characterStateOf: (type: CharacterGrowthType) => {
@@ -274,6 +291,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     [],
   );
 
+  const toggleProInterest = useCallback((kitId: string, earlyBird = true) => {
+    dispatch({ type: "TOGGLE_PRO_INTEREST", kitId, earlyBird });
+  }, []);
+
   const resetAll = useCallback(() => {
     resetState();
     dispatch({ type: "RESET_ALL" });
@@ -316,6 +337,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       isQuestCompleted,
       updateFamilyCard,
       updateStockCheck,
+      toggleProInterest,
       resetAll,
       computeRecommendedQuests,
       characterStateOf,
@@ -329,6 +351,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       isQuestCompleted,
       updateFamilyCard,
       updateStockCheck,
+      toggleProInterest,
       resetAll,
       computeRecommendedQuests,
       characterStateOf,
